@@ -7,18 +7,22 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [msg, setMsg] = useState("");
-  const { setToken } = useContext(AuthContext);
+  const { setAccessToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const submit = async (e) => {
     e.preventDefault();
     try {
       const res = await api.post("token/", { username, password });
-      setToken(res.data.access);
+      localStorage.setItem("accessToken", res.data.access);
+      localStorage.setItem("refreshToken", res.data.refresh);
+      setAccessToken(res.data.access);
+
       setMsg("Login successful!");
       setTimeout(() => navigate("/dashboard"), 1000);
     } catch (err) {
-      setMsg("Login failed.");
+      console.error("Login error:", err.response?.data || err.message);
+      setMsg("Login failed. Please check your credentials.");
     }
   };
 

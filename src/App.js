@@ -6,8 +6,8 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 
 function PrivateRoute({ children }) {
-  const { token } = React.useContext(AuthContext);
-  return token ? children : <Navigate to="/login" />;
+  const { accessToken } = React.useContext(AuthContext);
+  return accessToken ? children : <Navigate to="/login" />;
 }
 
 export default function App() {

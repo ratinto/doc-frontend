@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { FiHome, FiFileText, FiStar, FiSettings, FiLogOut, FiUpload, FiTrash2, FiMessageSquare } from "react-icons/fi";
-import api from "../api";
+import api, { setAuthToken } from "../api";
 import { AuthContext } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -12,28 +12,49 @@ export default function Dashboard() {
   const [answer, setAnswer] = useState("");
   const [selectedDoc, setSelectedDoc] = useState(null);
   const [msg, setMsg] = useState("");
-  const { logout } = useContext(AuthContext);
+  const { logout, accessToken } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const fetchDocs = async () => {
-    const res = await api.get("documents/");
-    setDocs(res.data);
+    try {
+      const res = await api.get("documents/");
+      setDocs(res.data);
+    } catch (err) {
+      if (err.response && err.response.status === 401) {
+        setMsg("Session expired. Please log in again.");
+      } else if (err.response && err.response.status === 403) {
+          setMsg("Access denied. You don't have permission.");
+      } else {
+        setMsg("Error fetching documents.");
+      }
+    }
   };
 
   useEffect(() => {
+    const storedAccessToken = localStorage.getItem("accessToken");
+    if (storedAccessToken) {
+        setAuthToken(storedAccessToken);
+    }
     fetchDocs();
-  }, []);
+  }, [accessToken]);
 
   const upload = async (e) => {
     e.preventDefault();
     if (!file) return;
+    setMsg("");
     const form = new FormData();
     form.append("file", file);
     if (title) form.append("title", title);
-    await api.post("documents/", form);
-    setMsg("Uploaded!");
+    try {
+      await api.post("documents/", form);
+      setMsg("Uploaded!");
+      setFile(null);
+      setTitle("");
+      await fetchDocs();
+    } catch (err) {
+      setMsg("Upload failed: " + (err.response?.data?.detail || err.message));
+    }
     setTimeout(() => setMsg(""), 3000);
-    fetchDocs();
   };
 
   const deleteDoc = async (id) => {

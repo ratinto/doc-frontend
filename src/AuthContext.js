@@ -4,19 +4,29 @@ import { setAuthToken } from "./api";
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
+  const [accessToken, setAccessToken] = useState(
+    localStorage.getItem("accessToken") || null
+  );
 
   useEffect(() => {
-    setAuthToken(token);
-    if (token) localStorage.setItem("token", token);
-    else localStorage.removeItem("token");
-  }, [token]);
+    setAuthToken(accessToken);
+    if (accessToken) {
+      localStorage.setItem("accessToken", accessToken);
+    } else {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+    }
+  }, [accessToken]);
 
-  // Add this logout function
-  const logout = () => setToken(null);
+  const logout = () => {
+    setAccessToken(null);
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    setAuthToken(null);
+  };
 
   return (
-    <AuthContext.Provider value={{ token, setToken, logout }}>
+    <AuthContext.Provider value={{ accessToken, setAccessToken, logout }}>
       {children}
     </AuthContext.Provider>
   );
