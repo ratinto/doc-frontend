@@ -1,71 +1,80 @@
-# Getting Started with Create React App
+# Document Q&A Frontend (React)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is the React-based frontend for the Document Q&A Portal. It allows users to register, log in, upload documents, and ask questions about their documents using AI.
 
-## Available Scripts
+## Features
 
-In the project directory, you can run:
+- Register/login with JWT authentication
+- Upload and list documents
+- Ask questions and display AI answers
+- Friendly dashboard
+- Integrates with Django REST backend
 
-### `npm start`
+---
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Requirements
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- Node.js 16+
+- npm
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Local Development Setup
 
-### `npm run build`
+1. **Clone the repository**
+    ```bash
+    git clone https://github.com/ratinto/doc-frontend.git
+    cd doc-frontend
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+2. **Install dependencies**
+    ```bash
+    npm install
+    ```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+3. **Set the backend API URL**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    In `src/api.js`, set:
+    ```js
+    const api = axios.create({
+      baseURL: "http://localhost:8000/api/", // or your deployed backend URL
+    });
+    ```
 
-### `npm run eject`
+    For production, set the Render backend URL (e.g., `https://doc-backend-xhh5.onrender.com/api/`).
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+4. **Run the frontend**
+    ```bash
+    npm start
+    ```
+    The app runs at [http://localhost:3000](http://localhost:3000).
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+---
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Production Deployment (Vercel)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. **Push code to GitHub (or another Git provider).**
+2. **Go to [Vercel](https://vercel.com/) and import your project.**
+4. **Deploy!**
 
-## Learn More
+---
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Key Files
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `src/api.js` – Axios config for backend API
+- `src/AuthContext.js` – Auth context using JWT
+- `src/pages/` – Register, Login, Dashboard pages
+- `src/App.js` – Routing
 
-### Code Splitting
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Environment Variables
 
-### Analyzing the Bundle Size
+- If using environment variables for API URL:
+    - Create a `.env` file:
+      ```
+      REACT_APP_API_URL=https://doc-backend-xhh5.onrender.com/api/
+      ```
+    -
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
-# doc-frontend
