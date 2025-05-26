@@ -154,7 +154,7 @@ export default function Dashboard() {
         `}
       >
         <h1 className="text-3xl font-bold text-blue-400 mb-10 select-none">
-          📁 Dashboard
+          DocMan
         </h1>
         <div className="flex-1">
           <SidebarItem icon={<FiHome />} label="Home" onClick={() => setSidebarOpen(false)} />
